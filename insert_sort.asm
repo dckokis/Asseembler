@@ -2,29 +2,29 @@
 nums:	.byte	69, 98, 73, 138, 5, 49, 5, 14, 5, 107
 	.eqv	N	10	
 .text
-	la	x1, nums #текущий адрес
-	mv	x7, x1 #начальный адрес
+	la	x1, nums 
+	mv	x7, x1 
 	li	x6, N
 	mv	x5, x6
-	add	x5, x5, x1 #конечный адрес
+	add	x5, x5, x1 
 	
-INSERT_SORT:	
+insert_sort:	
 	beq	x1, x5, printing
 	lbu	x11,  (x1)
 	addi	x1, x1, 1
 	beq	x1, x5, printing
-	lbu	x12, (x1) # х12 - правое, х11 - левое
+	lbu	x12, (x1) 
 	
 compare:	
-	bleu	x11, x12, INSERT_SORT #уже отсортировано до x12
+	bleu	x11, x12, insert_sort 
 	
-	mv	x4, x1 #запомнили, чтобы после перемещения элемента вернуться сюда				
+	mv	x4, x1 				
 sorting_process:
 	sb	x11, (x1)
 	addi	x1, x1, -1
-	sb	x12, (x1) #записали в память на место х11 - х12, а на место х12 - х11 (двигаем х12) 
+	sb	x12, (x1) 
 	
-back:  #тут меняются местами х11 и х12 именно регистры
+back:  
 	mv	x13, x12
 	mv	x12, x11
 	mv	x11, x13
@@ -47,10 +47,10 @@ sorting_process1:
 	
 back_to_beginning:
 	mv	x1, x4
-	b	INSERT_SORT	
+	b	insert_sort	
 	
 printing:
-	sub	x1, x5, x6 #вернулись в начало
+	sub	x1, x5, x6 
 	li x17, 1
 	print:
 		lbu x10, (x1)
@@ -63,4 +63,4 @@ printing:
 		li x17, 1
 		b print
 	
-end:	
+end:
